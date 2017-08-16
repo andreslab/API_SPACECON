@@ -38,6 +38,8 @@ func UsersRequestAdmin(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		UsersRequestPostAdmin(w, r)
 	case "PUT":
+	case "DELETE":
+		UsersRequestDeleteAdmin(w, r)
 	default:
 	}
 }
@@ -62,6 +64,8 @@ func DataGameRequestAdmin(w http.ResponseWriter, r *http.Request) {
 		DataGameRequestPostAdmin(w, r)
 	case "PUT":
 		//DataGameRequestUpdate(w, r)
+	case "DELETE":
+		DataGameRequestDeleteAdmin(w, r)
 	default:
 	}
 }
@@ -86,6 +90,8 @@ func RegisterRequestAdmin(w http.ResponseWriter, r *http.Request) {
 		RegisterRequestPostAdmin(w, r)
 	case "PUT":
 		//RegisterRequestUpdate(w, r)
+	case "DELETE":
+		RegisterRequestDeleteAdmin(w, r)
 	default:
 	}
 }
@@ -96,6 +102,17 @@ func LoginRequest(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		LoginRequestPost(w, r)
 	case "PUT":
+	default:
+	}
+}
+
+func LoginRequestAdmin(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+	case "POST":
+	case "PUT":
+	case "DELETE":
+		LoginRequestDeleteAdmin(w, r)
 	default:
 	}
 }
@@ -124,29 +141,6 @@ func main() {
 
 	//end database
 
-	/*
-		// with library gorilla mux
-		r := mux.NewRouter().StrictSlash(false)
-
-		r.HandleFunc("/odisea/check", controller.CheckServicesRequestGet).Methods("GET")
-
-		r.HandleFunc("/odisea/register", controller.RegisterRequestGet).Methods("GET")
-		r.HandleFunc("/odisea/register", controller.RegisterRequestPost).Methods("POST")
-		r.HandleFunc("/odisea/admin/register", controller.RegisterRequestPostAdmin).Methods("POST")
-		r.HandleFunc("/odisea/register", controller.RegisterRequestUpdate).Methods("PUT")
-
-		r.HandleFunc("/odisea/login", controller.LoginRequestPost).Methods("POST")
-
-		r.HandleFunc("/odisea/data", controller.DataGameRequestGet).Methods("GET")
-		r.HandleFunc("/odisea/data", controller.DataGameRequestPost).Methods("POST")
-		r.HandleFunc("/odisea/admin/data", controller.DataGameRequestPostAdmin).Methods("POST")
-		r.HandleFunc("/odisea/data", controller.DataGameRequestUpdate).Methods("PUT")
-
-		r.HandleFunc("/odisea/users", controller.UsersRequestGet).Methods("GET")
-		r.HandleFunc("/odisea/users", controller.UsersRequestPost).Methods("POST")
-		r.HandleFunc("/odisea/admin/users", controller.UsersRequestPostAdmin).Methods("POST")
-		r.HandleFunc("/odisea/users", controller.UsersRequestUpdate).Methods("PUT")*/
-
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/odisea/check", CheckServicesRequest)
@@ -155,6 +149,7 @@ func main() {
 	mux.HandleFunc("/odisea/data", DataGameRequest)
 	mux.HandleFunc("/odisea/admin/data", DataGameRequestAdmin)
 	mux.HandleFunc("/odisea/login", LoginRequest)
+	mux.HandleFunc("/odisea/admin/login", LoginRequestAdmin)
 	mux.HandleFunc("/odisea/users", UsersRequest)
 	mux.HandleFunc("/odisea/admin/users", UsersRequestAdmin)
 

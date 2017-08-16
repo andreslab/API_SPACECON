@@ -116,3 +116,34 @@ func UsersRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	w.Write(resp)
 }
+
+func UsersRequestDeleteAdmin(w http.ResponseWriter, r *http.Request) {
+
+	for index := range responseDataUsers {
+		delete(responseDataUsers, index)
+	}
+
+	dataToSend := NewResponseControllerEmpty()
+
+	if len(responseDataDataGame) < 1 {
+		dataToSend.ID = "0"
+		dataToSend.STATE = "1"
+		dataToSend.ERROR = "0"
+		dataToSend.CODE = "200"
+	} else {
+		dataToSend.ID = "0"
+		dataToSend.STATE = "0"
+		dataToSend.ERROR = "1"
+		dataToSend.CODE = "400"
+	}
+
+	//header
+	w.Header().Set("Content-Type", "application/json")
+	//resp, err := json.Marshal(data)
+	resp, err := json.Marshal(dataToSend)
+	if err != nil {
+		panic(err)
+	}
+	//w.WriteHeader(http.StatusNoContent)
+	w.Write(resp)
+}
