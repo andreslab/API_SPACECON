@@ -83,15 +83,39 @@ func RegisterRequestPost(w http.ResponseWriter, r *http.Request) {
 			// … something to show the data in buff around that offset …
 		}
 	}
-	idDataGame++
-	id := strconv.Itoa(idDataGame)
-	fmt.Println(data)
-	responseDataRegister[id] = data
+
+	userExist := false
+
+	for index := range responseDataRegister {
+		if responseDataRegister[index].USERNAME == data.USERNAME {
+			userExist = true
+		}
+	}
+
+	dataToSend := NewResponseControllerEmpty()
+
+	if !userExist {
+
+		//save new register
+
+		idDataGame++
+		id := strconv.Itoa(idDataGame)
+		data.ID = id
+		responseDataRegister[id] = data
+
+		dataToSend.ID = "0"
+		dataToSend.STATE = "1"
+		dataToSend.ERROR = "0"
+		dataToSend.CODE = "200"
+	} else {
+		dataToSend.ID = "0"
+		dataToSend.STATE = "0"
+		dataToSend.ERROR = "1"
+		dataToSend.CODE = "400"
+	}
 
 	//header
-	dataToSend := NewResponseController("0", "1", "0", "200")
 	w.Header().Set("Content-Type", "application/json")
-	//resp, err := json.Marshal(data)
 	resp, err := json.Marshal(dataToSend)
 	if err != nil {
 		panic(err)
@@ -173,6 +197,35 @@ func RegisterRequestDeleteAdmin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//header
+	w.Header().Set("Content-Type", "application/json")
+	//resp, err := json.Marshal(data)
+	resp, err := json.Marshal(dataToSend)
+	if err != nil {
+		panic(err)
+	}
+	//w.WriteHeader(http.StatusNoContent)
+	w.Write(resp)
+}
+
+func RegisterRequestUpdateAdmin(w http.ResponseWriter, r *http.Request) {
+
+	var newData RegisterController
+	err := json.NewDecoder(r.Body).Decode(&newData)
+	if err != nil {
+		panic(err)
+	}
+	id := newData.ID
+
+	if lastData, ok := responseDataRegister[id]; ok {
+		newData.CREATED = lastData.CREATED
+		delete(responseDataRegister, id)
+		responseDataRegister[id] = newData
+	} else {
+		log.Printf("no se encontró el id: %s", id)
+	}
+
+	//header
+	dataToSend := NewResponseController("0", "1", "0", "200")
 	w.Header().Set("Content-Type", "application/json")
 	//resp, err := json.Marshal(data)
 	resp, err := json.Marshal(dataToSend)

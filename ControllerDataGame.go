@@ -65,7 +65,8 @@ func DataGameRequestGet(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write(jsonData)
 }
-func DataGameRequestPost(w http.ResponseWriter, r *http.Request) {
+
+/*func DataGameRequestPost(w http.ResponseWriter, r *http.Request) {
 	var data DataGameController
 
 	buf := new(bytes.Buffer)
@@ -118,7 +119,7 @@ func DataGameRequestPost(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	w.Write(resp)
 
-}
+}*/
 
 //sin parametros en la url
 func DataGameRequestUpdate(w http.ResponseWriter, r *http.Request) {
@@ -181,20 +182,63 @@ func DataGameRequestUpdateAdmin(w http.ResponseWriter, r *http.Request) {
 }
 
 func DataGameRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
+
 	var data DataGameController
-	err := json.NewDecoder(r.Body).Decode(&data)
-	if err != nil {
-		panic(err)
+
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(r.Body)
+	s := buf.String()
+	fmt.Println("---------")
+	fmt.Println(s)
+	byteArray := []byte(s)
+	//key_init := []byte("{") //123
+	//key_end := []byte("}")  //125
+
+	position := 0
+	sum := 0
+	for _, v := range byteArray {
+		fmt.Println(v)
+		if v == 123 { // 123 es { en byte
+			position = sum
+		}
+		sum += 1
 	}
 
-	id := strconv.Itoa(idRegister)
+	dataJson := string(byteArray[position:])
+	fmt.Println(dataJson)
+
+	fmt.Println("-----end----")
+
+	err := json.Unmarshal([]byte(dataJson), &data)
+
+	if err != nil {
+		log.Fatal(err)
+		log.Println("json.Compact:", err)
+		if serr, ok := err.(*json.SyntaxError); ok {
+			log.Println("Occurred at offset:", serr.Offset)
+			// … something to show the data in buff around that offset …
+		}
+	}
+
+	//save new object
+
+	id := strconv.Itoa(idDataGame)
+	data.ID = id
 	data.CREATED = time.Now().String()
+	fmt.Println(data)
 	responseDataDataGame[id] = data
-	idRegister++
+	idDataGame++
+
+	dataToSend := NewResponseControllerEmpty()
+
+	dataToSend.ID = "0"
+	dataToSend.STATE = "1"
+	dataToSend.ERROR = "0"
+	dataToSend.CODE = "200"
 
 	//header
 	w.Header().Set("Content-Type", "application/json")
-	resp, err := json.Marshal(data)
+	resp, err := json.Marshal(dataToSend)
 	if err != nil {
 		panic(err)
 	}

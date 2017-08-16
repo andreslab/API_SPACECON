@@ -49,7 +49,7 @@ func DataGameRequest(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		DataGameRequestGet(w, r)
 	case "POST":
-		DataGameRequestPost(w, r)
+		//DataGameRequestPost(w, r)
 	case "PUT":
 		DataGameRequestUpdate(w, r)
 	default:
@@ -63,7 +63,7 @@ func DataGameRequestAdmin(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		DataGameRequestPostAdmin(w, r)
 	case "PUT":
-		//DataGameRequestUpdate(w, r)
+		DataGameRequestUpdateAdmin(w, r)
 	case "DELETE":
 		DataGameRequestDeleteAdmin(w, r)
 	default:
@@ -89,7 +89,7 @@ func RegisterRequestAdmin(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		RegisterRequestPostAdmin(w, r)
 	case "PUT":
-		//RegisterRequestUpdate(w, r)
+		RegisterRequestUpdateAdmin(w, r)
 	case "DELETE":
 		RegisterRequestDeleteAdmin(w, r)
 	default:
@@ -110,6 +110,7 @@ func LoginRequestAdmin(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 	case "POST":
+		LoginRequestPostAdmin(w, r)
 	case "PUT":
 	case "DELETE":
 		LoginRequestDeleteAdmin(w, r)
