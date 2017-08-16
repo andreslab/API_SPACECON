@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 	"time"
-
 	//controller "./controller"
 	//servicedata "./resources/database"
 )
@@ -14,7 +13,7 @@ import (
 func CheckServicesRequest(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		UsersRequestGet(w, r)
+		CheckServicesRequestGet(w, r)
 	case "POST":
 	case "PUT":
 	default:
