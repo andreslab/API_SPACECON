@@ -7,14 +7,14 @@ import (
 	"os"
 	"time"
 
-	controller "./controller"
+	//controller "./controller"
 	//servicedata "./resources/database"
 )
 
 func CheckServicesRequest(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		controller.UsersRequestGet(w, r)
+		UsersRequestGet(w, r)
 	case "POST":
 	case "PUT":
 	default:
@@ -24,9 +24,9 @@ func CheckServicesRequest(w http.ResponseWriter, r *http.Request) {
 func UsersRequest(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		controller.UsersRequestGet(w, r)
+		UsersRequestGet(w, r)
 	case "POST":
-		controller.UsersRequestPost(w, r)
+		UsersRequestPost(w, r)
 	case "PUT":
 	default:
 	}
@@ -35,9 +35,9 @@ func UsersRequest(w http.ResponseWriter, r *http.Request) {
 func UsersRequestAdmin(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		controller.UsersRequestGet(w, r)
+		UsersRequestGet(w, r)
 	case "POST":
-		controller.UsersRequestPostAdmin(w, r)
+		UsersRequestPostAdmin(w, r)
 	case "PUT":
 	default:
 	}
@@ -46,11 +46,11 @@ func UsersRequestAdmin(w http.ResponseWriter, r *http.Request) {
 func DataGameRequest(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		controller.DataGameRequestGet(w, r)
+		DataGameRequestGet(w, r)
 	case "POST":
-		controller.DataGameRequestPost(w, r)
+		DataGameRequestPost(w, r)
 	case "PUT":
-		controller.DataGameRequestUpdate(w, r)
+		DataGameRequestUpdate(w, r)
 	default:
 	}
 }
@@ -58,11 +58,11 @@ func DataGameRequest(w http.ResponseWriter, r *http.Request) {
 func DataGameRequestAdmin(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		controller.DataGameRequestGet(w, r)
+		DataGameRequestGet(w, r)
 	case "POST":
-		controller.DataGameRequestPostAdmin(w, r)
+		DataGameRequestPostAdmin(w, r)
 	case "PUT":
-		//controller.DataGameRequestUpdate(w, r)
+		//DataGameRequestUpdate(w, r)
 	default:
 	}
 }
@@ -70,11 +70,11 @@ func DataGameRequestAdmin(w http.ResponseWriter, r *http.Request) {
 func RegisterRequest(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		controller.RegisterRequestGet(w, r)
+		RegisterRequestGet(w, r)
 	case "POST":
-		controller.RegisterRequestPost(w, r)
+		RegisterRequestPost(w, r)
 	case "PUT":
-		controller.RegisterRequestUpdate(w, r)
+		RegisterRequestUpdate(w, r)
 	default:
 	}
 }
@@ -82,11 +82,11 @@ func RegisterRequest(w http.ResponseWriter, r *http.Request) {
 func RegisterRequestAdmin(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		controller.RegisterRequestGet(w, r)
+		RegisterRequestGet(w, r)
 	case "POST":
-		controller.RegisterRequestPostAdmin(w, r)
+		RegisterRequestPostAdmin(w, r)
 	case "PUT":
-		//controller.RegisterRequestUpdate(w, r)
+		//RegisterRequestUpdate(w, r)
 	default:
 	}
 }
@@ -95,7 +95,7 @@ func LoginRequest(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 	case "POST":
-		controller.LoginRequestPost(w, r)
+		LoginRequestPost(w, r)
 	case "PUT":
 	default:
 	}

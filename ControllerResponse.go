@@ -1,4 +1,4 @@
-package controller
+package main
 
 type ResponseController struct {
 	ID    string `json:"ID"`
