@@ -98,10 +98,11 @@ func RegisterRequestPost(w http.ResponseWriter, r *http.Request) {
 
 		//save new register
 
-		idDataGame++
 		id := strconv.Itoa(idDataGame)
 		data.ID = id
+		data.CREATED = time.Now().String()
 		responseDataRegister[id] = data
+		idRegister++
 
 		dataToSend.ID = "0"
 		dataToSend.STATE = "1"
@@ -126,24 +127,83 @@ func RegisterRequestPost(w http.ResponseWriter, r *http.Request) {
 }
 func RegisterRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 	var data RegisterController
-	err := json.NewDecoder(r.Body).Decode(&data)
-	if err != nil {
-		panic(err)
+
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(r.Body)
+	s := buf.String()
+	fmt.Println("---------")
+	fmt.Println(s)
+	byteArray := []byte(s)
+	//key_init := []byte("{") //123
+	//key_end := []byte("}")  //125
+
+	position := 0
+	sum := 0
+	for _, v := range byteArray {
+		fmt.Println(v)
+		if v == 123 { // 123 es { en byte
+			position = sum
+		}
+		sum += 1
 	}
-	idRegister++
-	id := strconv.Itoa(idRegister)
-	data.CREATED = time.Now().String()
-	responseDataRegister[id] = data
+
+	dataJson := string(byteArray[position:])
+	fmt.Println(dataJson)
+
+	fmt.Println("-----end----")
+
+	err := json.Unmarshal([]byte(dataJson), &data)
+
+	if err != nil {
+		log.Fatal(err)
+		log.Println("json.Compact:", err)
+		if serr, ok := err.(*json.SyntaxError); ok {
+			log.Println("Occurred at offset:", serr.Offset)
+			// … something to show the data in buff around that offset …
+		}
+	}
+
+	userExist := false
+
+	for index := range responseDataRegister {
+		if responseDataRegister[index].USERNAME == data.USERNAME {
+			userExist = true
+		}
+	}
+
+	dataToSend := NewResponseControllerEmpty()
+
+	if !userExist {
+
+		//save new register
+
+		id := strconv.Itoa(idDataGame)
+		data.ID = id
+		data.CREATED = time.Now().String()
+		responseDataRegister[id] = data
+		idRegister++
+
+		dataToSend.ID = "0"
+		dataToSend.STATE = "1"
+		dataToSend.ERROR = "0"
+		dataToSend.CODE = "200"
+	} else {
+		dataToSend.ID = "0"
+		dataToSend.STATE = "0"
+		dataToSend.ERROR = "1"
+		dataToSend.CODE = "400"
+	}
 
 	//header
 	w.Header().Set("Content-Type", "application/json")
-	resp, err := json.Marshal(data)
+	resp, err := json.Marshal(dataToSend)
 	if err != nil {
 		panic(err)
 	}
 
 	w.WriteHeader(http.StatusCreated)
 	w.Write(resp)
+
 }
 func RegisterRequestUpdate(w http.ResponseWriter, r *http.Request) {
 

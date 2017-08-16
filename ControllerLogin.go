@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 )
 
 var responseDataLogin = make(map[string]LoginController)
@@ -62,13 +61,30 @@ func LoginRequestPost(w http.ResponseWriter, r *http.Request) {
 			// … something to show the data in buff around that offset …
 		}
 	}
-	idDataGame++
-	id := strconv.Itoa(idDataGame)
-	fmt.Println(data)
-	responseDataLogin[id] = data
+
+	userExist := false
+
+	for index := range responseDataRegister {
+		if responseDataRegister[index].USERNAME == data.USERNAME {
+			userExist = true
+		}
+	}
+
+	dataToSend := NewResponseControllerEmpty()
+
+	if userExist {
+		dataToSend.ID = "0"
+		dataToSend.STATE = "1"
+		dataToSend.ERROR = "0"
+		dataToSend.CODE = "200"
+	} else {
+		dataToSend.ID = "0"
+		dataToSend.STATE = "0"
+		dataToSend.ERROR = "1"
+		dataToSend.CODE = "400"
+	}
 
 	//header
-	dataToSend := NewResponseController("0", "1", "0", "200")
 	w.Header().Set("Content-Type", "application/json")
 	//resp, err := json.Marshal(data)
 	resp, err := json.Marshal(dataToSend)
@@ -76,11 +92,11 @@ func LoginRequestPost(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	w.Write(resp)
 }
 
-func LoginRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
+/*func LoginRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 	var data LoginController
 	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
@@ -99,7 +115,7 @@ func LoginRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusCreated)
 	w.Write(resp)
-}
+}*/
 
 //func LoginRequestUpdate()    {}
 //func LoginRequestDelete() {}

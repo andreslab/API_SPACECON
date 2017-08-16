@@ -110,7 +110,6 @@ func LoginRequestAdmin(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 	case "POST":
-		LoginRequestPostAdmin(w, r)
 	case "PUT":
 	case "DELETE":
 		LoginRequestDeleteAdmin(w, r)
