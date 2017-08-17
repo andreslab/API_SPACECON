@@ -12,8 +12,8 @@ var responseDataLogin = make(map[string]LoginController)
 var idLogin int
 
 type LoginController struct {
-	USERNAME string
-	PASSWORD string
+	USERNAME string `json:"USERNAME"`
+	PASSWORD string `json:"PASSWORD"`
 }
 
 func NewLoginController(username string, password string) *LoginController {

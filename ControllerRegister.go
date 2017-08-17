@@ -14,11 +14,11 @@ var responseDataRegister = make(map[string]RegisterController)
 var idRegister int
 
 type RegisterController struct {
-	ID       string
-	PHONE    string
-	USERNAME string
-	PASSWORD string
-	CREATED  string
+	ID       string `json:"ID"`
+	PHONE    string `json:"PHONE"`
+	USERNAME string `json:"USERNAME"`
+	PASSWORD string `json:"PASSWORD"`
+	CREATED  string `json:"CREATED"`
 }
 
 func NewRegisterController(id string, phone string, username string, pass string) *RegisterController {
@@ -98,7 +98,7 @@ func RegisterRequestPost(w http.ResponseWriter, r *http.Request) {
 
 		//save new register
 
-		id := strconv.Itoa(idDataGame)
+		id := strconv.Itoa(idRegister)
 		data.ID = id
 		data.CREATED = time.Now().String()
 		responseDataRegister[id] = data
@@ -177,7 +177,7 @@ func RegisterRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 
 		//save new register
 
-		id := strconv.Itoa(idDataGame)
+		id := strconv.Itoa(idRegister)
 		data.ID = id
 		data.CREATED = time.Now().String()
 		responseDataRegister[id] = data

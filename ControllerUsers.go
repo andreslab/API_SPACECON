@@ -12,12 +12,12 @@ var responseDataUsers = make(map[string]UsersController)
 var idUsers int
 
 type UsersController struct {
-	ID       string
-	USERNAME string
-	PHONE    string
-	CREATED  string
-	DIAMONDS string
-	STATE    string
+	ID       string `json:"ID"`
+	USERNAME string `json:"USERNAME"`
+	PHONE    string `json:"PHONE"`
+	CREATED  string `json:"CREATED"`
+	DIAMONDS string `json:"DIAMONDS"`
+	STATE    string `json:"STATE"`
 }
 
 func NewUsersController(id string, username string, phone, string, numDiamond string, state string) *UsersController {
