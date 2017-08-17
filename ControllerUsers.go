@@ -146,6 +146,7 @@ func UsersRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 }
 
 func UsersRequestDeleteAdmin(w http.ResponseWriter, r *http.Request) {
+	idUsers = 0
 
 	for index := range responseDataUsers {
 		delete(responseDataUsers, index)

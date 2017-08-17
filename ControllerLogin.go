@@ -121,6 +121,7 @@ func LoginRequestPost(w http.ResponseWriter, r *http.Request) {
 //func LoginRequestDelete() {}
 
 func LoginRequestDeleteAdmin(w http.ResponseWriter, r *http.Request) {
+	idLogin = 0
 
 	for index := range responseDataLogin {
 		delete(responseDataLogin, index)

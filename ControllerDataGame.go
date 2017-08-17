@@ -248,6 +248,7 @@ func DataGameRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 }
 
 func DataGameRequestDeleteAdmin(w http.ResponseWriter, r *http.Request) {
+	idDataGame = 0
 
 	for index := range responseDataDataGame {
 		delete(responseDataDataGame, index)

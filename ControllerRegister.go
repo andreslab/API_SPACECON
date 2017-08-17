@@ -237,6 +237,7 @@ func RegisterRequestUpdate(w http.ResponseWriter, r *http.Request) {
 //func RegisterRequestDelete() {}
 
 func RegisterRequestDeleteAdmin(w http.ResponseWriter, r *http.Request) {
+	idRegister = 0
 
 	for index := range responseDataRegister {
 		delete(responseDataRegister, index)
