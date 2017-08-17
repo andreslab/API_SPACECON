@@ -129,20 +129,46 @@ func UsersRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	id := strconv.Itoa(idUsers)
-	data.CREATED = time.Now().String()
-	responseDataUsers[id] = data
-	idUsers++
+	userExist := false
+
+	for index := range responseDataUsers {
+		if responseDataUsers[index].USERNAME == data.USERNAME {
+			userExist = true
+		}
+	}
+
+	dataToSend := NewResponseControllerEmpty()
+
+	if !userExist {
+
+		//save new user
+
+		id := strconv.Itoa(idUsers)
+		data.ID = id
+		responseDataUsers[id] = data
+		idUsers++
+
+		dataToSend.ID = "0"
+		dataToSend.STATE = "1"
+		dataToSend.ERROR = "0"
+		dataToSend.CODE = "200"
+	} else {
+		dataToSend.ID = "0"
+		dataToSend.STATE = "0"
+		dataToSend.ERROR = "1"
+		dataToSend.CODE = "400"
+	}
 
 	//header
 	w.Header().Set("Content-Type", "application/json")
-	resp, err := json.Marshal(data)
+	resp, err := json.Marshal(dataToSend)
 	if err != nil {
 		panic(err)
 	}
 
 	w.WriteHeader(http.StatusCreated)
 	w.Write(resp)
+
 }
 
 func UsersRequestDeleteAdmin(w http.ResponseWriter, r *http.Request) {
