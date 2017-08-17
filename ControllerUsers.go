@@ -66,10 +66,11 @@ func UsersRequestPost(w http.ResponseWriter, r *http.Request) {
 	if !userExist {
 
 		//save new user
-		idUsers++
+
 		id := strconv.Itoa(idUsers)
 		data.ID = id
 		responseDataUsers[id] = data
+		idUsers++
 
 		dataToSend.ID = "0"
 		dataToSend.STATE = "1"
@@ -127,10 +128,11 @@ func UsersRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	idRegister++
-	id := strconv.Itoa(idRegister)
+
+	id := strconv.Itoa(idUsers)
 	data.CREATED = time.Now().String()
 	responseDataUsers[id] = data
+	idUsers++
 
 	//header
 	w.Header().Set("Content-Type", "application/json")
