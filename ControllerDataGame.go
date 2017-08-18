@@ -24,6 +24,10 @@ type DataGameController struct {
 	HUNTER    string `json:"HUNTER"`
 }
 
+type DataGameContainerController struct {
+	CONTAINER []DataGameController
+}
+
 func NewDataGameControllerEmpty() *DataGameController {
 	return &DataGameController{
 		ID:        "0",
@@ -56,9 +60,13 @@ func DataGameRequestGet(w http.ResponseWriter, r *http.Request) {
 		data = append(data, value)
 	}
 
+	d := DataGameContainerController{
+		CONTAINER: data,
+	}
+
 	//header
 	w.Header().Set("Content-Type", "application/json")
-	jsonData, err := json.Marshal(data)
+	jsonData, err := json.Marshal(d)
 	if err != nil {
 		panic(err)
 	}
