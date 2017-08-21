@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
@@ -149,6 +150,39 @@ func DataGameRequestUpdate(w http.ResponseWriter, r *http.Request) {
 		log.Printf("no se encontró el id: %s", id)
 	}
 
+	//SEND NOTIFICATION
+
+	url := "https://fcm.googleapis.com/fcm/send"
+	fmt.Println("URL: ", url)
+	var jsonStr = []byte(`{"to": "/topics/spaceconplayer",
+  "notification" : {
+      "body" : "nueva captura",
+      "title" : "spacecon"
+    }}`)
+
+	req, err2 := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	if err2 != nil {
+		log.Printf("....")
+	}
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Authorization", "key=AAAAsAuxfzA:APA91bHY6OGDVP6kklE-Xf4LUA1CRJHfYUa4KHbWbvNDQoKxyfkHFOyR_PNuBVsrVECGpnBbqrf3GooQkka-EEq1vRvP9iTm-gqGv4k1Z0EaXzFVnTgWiapfB7ECDy5LCDyf-B42sCuF5G-bjTpoIfZjf41g9xWRYQ")
+	client := &http.Client{}
+	resp_, err_ := client.Do(req)
+	if err_ != nil {
+		panic(err_)
+	}
+	defer resp_.Body.Close()
+	fmt.Println("response status:", resp_.Status)
+	fmt.Println("--")
+	fmt.Println("response header:", resp_.Header)
+	fmt.Println("--")
+	fmt.Println("response request:", resp_.Request)
+	fmt.Println("--")
+	body_, _ := ioutil.ReadAll(resp_.Body)
+	fmt.Println("response body: ", string(body_))
+
+	//END
+
 	//header
 	dataToSend := NewResponseController("0", "1", "0", "200")
 	w.Header().Set("Content-Type", "application/json")
@@ -196,7 +230,7 @@ func DataGameRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(r.Body)
 	s := buf.String()
-	fmt.Println("---------")
+	//fmt.Println("---------")
 	fmt.Println(s)
 	byteArray := []byte(s)
 	//key_init := []byte("{") //123
@@ -205,7 +239,7 @@ func DataGameRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 	position := 0
 	sum := 0
 	for _, v := range byteArray {
-		fmt.Println(v)
+		//fmt.Println(v)
 		if v == 123 { // 123 es { en byte
 			position = sum
 		}
@@ -215,7 +249,7 @@ func DataGameRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 	dataJson := string(byteArray[position:])
 	fmt.Println(dataJson)
 
-	fmt.Println("-----end----")
+	//fmt.Println("-----end----")
 
 	err := json.Unmarshal([]byte(dataJson), &data)
 

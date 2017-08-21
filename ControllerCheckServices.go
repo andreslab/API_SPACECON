@@ -30,15 +30,6 @@ func NewCheckServicesController(id string, state string, _error string) *CheckSe
 }
 
 func CheckServicesRequestGet(w http.ResponseWriter, r *http.Request) {
-	/*var data []CheckServicesController
-
-	result := NewCheckServicesController("0", "1", "0")
-
-	responseDataCheckService["0"] = *result
-
-	for _, value := range responseDataCheckService {
-		data = append(data, value)
-	}*/
 
 	dataToSend := NewResponseController("0", "1", "0", "200")
 	//header

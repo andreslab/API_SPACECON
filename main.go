@@ -165,6 +165,7 @@ func main() {
 		WriteTimeout:      10 * time.Second,
 		MaxHeaderBytes:    1 << 20,
 	}
-	log.Printf("init server ....")
+	log.Printf("init server ...." + port)
 	server.ListenAndServe()
+
 }
