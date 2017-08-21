@@ -74,8 +74,9 @@ func DataGameRequestGet(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonData)
 }
 
-/*func DataGameRequestPost(w http.ResponseWriter, r *http.Request) {
-	var data DataGameController
+//dev::::
+func DataGameRequestPost(w http.ResponseWriter, r *http.Request) {
+	var data PositionController
 
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(r.Body)
@@ -114,7 +115,12 @@ func DataGameRequestGet(w http.ResponseWriter, r *http.Request) {
 
 	id := strconv.Itoa(idDataGame)
 	fmt.Println(data)
-	responseDataDataGame[id] = data
+	dataSave := NewDataGameControllerEmpty()
+	dataSave.LATITUDE = data.LATITUDE
+	dataSave.LONGITUDE = data.LONGITUDE
+	dataSave.ID = id
+
+	responseDataDataGame[id] = *dataSave
 	idDataGame++
 
 	//header
@@ -127,7 +133,7 @@ func DataGameRequestGet(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	w.Write(resp)
 
-}*/
+}
 
 //sin parametros en la url
 func DataGameRequestUpdate(w http.ResponseWriter, r *http.Request) {

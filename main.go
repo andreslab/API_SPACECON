@@ -49,7 +49,7 @@ func DataGameRequest(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		DataGameRequestGet(w, r)
 	case "POST":
-		//DataGameRequestPost(w, r)
+		DataGameRequestPost(w, r)
 	case "PUT":
 		DataGameRequestUpdate(w, r)
 	default:
