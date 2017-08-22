@@ -24,6 +24,12 @@ type DataGameController struct {
 	HUNTER    string `json:"HUNTER"`
 }
 
+type DataGameResponseController struct {
+	ID       string `json:"ID"`
+	USERNAME string `json:"USERNAME"`
+	STATE    string `json:"STATE"`
+}
+
 type DataGameContainerController struct {
 	CONTAINER []DataGameController
 }
@@ -57,7 +63,9 @@ func NewDataGameController(id string, name string, value string, latitude string
 func DataGameRequestGet(w http.ResponseWriter, r *http.Request) {
 	var data []DataGameController
 	for _, value := range responseDataDataGame {
-		data = append(data, value)
+		if value.STATE == "0" {
+			data = append(data, value)
+		}
 	}
 
 	d := DataGameContainerController{
