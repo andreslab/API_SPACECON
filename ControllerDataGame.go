@@ -31,7 +31,7 @@ type DataGameContainerController struct {
 func NewDataGameControllerEmpty() *DataGameController {
 	return &DataGameController{
 		ID:        "0",
-		NAME:      "none",
+		NAME:      "3",
 		VALUE:     "0",
 		LATITUDE:  "0",
 		LONGITUDE: "0",
