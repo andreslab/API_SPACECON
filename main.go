@@ -59,7 +59,7 @@ func DataGameRequest(w http.ResponseWriter, r *http.Request) {
 func DataGameRequestAdmin(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		DataGameRequestGet(w, r)
+		DataGameRequestGetAdmin(w, r)
 	case "POST":
 		DataGameRequestPostAdmin(w, r)
 	case "PUT":

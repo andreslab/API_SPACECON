@@ -82,6 +82,26 @@ func DataGameRequestGet(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonData)
 }
 
+func DataGameRequestGetAdmin(w http.ResponseWriter, r *http.Request) {
+	var data []DataGameController
+	for _, value := range responseDataDataGame {
+		data = append(data, value)
+	}
+
+	d := DataGameContainerController{
+		CONTAINER: data,
+	}
+
+	//header
+	w.Header().Set("Content-Type", "application/json")
+	jsonData, err := json.Marshal(d)
+	if err != nil {
+		panic(err)
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonData)
+}
+
 //dev::::
 func DataGameRequestPost(w http.ResponseWriter, r *http.Request) {
 	var data PositionController
