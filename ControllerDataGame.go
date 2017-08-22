@@ -24,12 +24,6 @@ type DataGameController struct {
 	HUNTER    string `json:"HUNTER"`
 }
 
-type DataGameResponseController struct {
-	ID       string `json:"ID"`
-	USERNAME string `json:"USERNAME"`
-	STATE    string `json:"STATE"`
-}
-
 type DataGameContainerController struct {
 	CONTAINER []DataGameController
 }
@@ -37,7 +31,7 @@ type DataGameContainerController struct {
 func NewDataGameControllerEmpty() *DataGameController {
 	return &DataGameController{
 		ID:        "0",
-		NAME:      "3",
+		NAME:      "0",
 		VALUE:     "0",
 		LATITUDE:  "0",
 		LONGITUDE: "0",
@@ -177,8 +171,14 @@ func DataGameRequestUpdate(w http.ResponseWriter, r *http.Request) {
 
 	if lastData, ok := responseDataDataGame[id]; ok {
 		newData.CREATED = lastData.CREATED
+		newData.LATITUDE = lastData.LATITUDE
+		newData.LONGITUDE = lastData.LONGITUDE
+		newData.NAME = lastData.NAME
+		newData.VALUE = lastData.VALUE
+
 		delete(responseDataDataGame, id)
 		responseDataDataGame[id] = newData
+
 	} else {
 		log.Printf("no se encontró el id: %s", id)
 	}
@@ -217,7 +217,21 @@ func DataGameRequestUpdate(w http.ResponseWriter, r *http.Request) {
 	//END
 
 	//header
-	dataToSend := NewResponseController("0", "1", "0", "200")
+	dataToSend := NewResponseControllerEmpty()
+
+	if responseDataDataGame[id].ID == "1" {
+		dataToSend.ID = "0"
+		dataToSend.CODE = "200"
+		dataToSend.ERROR = "0"
+		dataToSend.STATE = "1"
+
+	} else {
+
+		dataToSend.ID = "0"
+		dataToSend.CODE = "200"
+		dataToSend.ERROR = "1"
+		dataToSend.STATE = "0"
+	}
 	w.Header().Set("Content-Type", "application/json")
 	//resp, err := json.Marshal(data)
 	resp, err := json.Marshal(dataToSend)
@@ -230,22 +244,79 @@ func DataGameRequestUpdate(w http.ResponseWriter, r *http.Request) {
 
 //con parametros en la url
 func DataGameRequestUpdateAdmin(w http.ResponseWriter, r *http.Request) {
+	/*vars := mux.Vars(r)
+	id := vars["id"]*/
 	var newData DataGameController
 	err := json.NewDecoder(r.Body).Decode(&newData)
 	if err != nil {
 		panic(err)
 	}
 	id := newData.ID
+	fmt.Println(newData.LATITUDE)
 
 	if lastData, ok := responseDataDataGame[id]; ok {
 		newData.CREATED = lastData.CREATED
+		newData.LATITUDE = lastData.LATITUDE
+		newData.LONGITUDE = lastData.LONGITUDE
+		newData.NAME = lastData.NAME
+		newData.VALUE = lastData.VALUE
+
 		delete(responseDataDataGame, id)
 		responseDataDataGame[id] = newData
+
 	} else {
 		log.Printf("no se encontró el id: %s", id)
 	}
+
+	//SEND NOTIFICATION
+	/*
+	   	url := "https://fcm.googleapis.com/fcm/send"
+	   	fmt.Println("URL: ", url)
+	   	var jsonStr = []byte(`{"to": "/topics/spaceconplayer",
+	     "notification" : {
+	         "body" : "nueva captura",
+	         "title" : "spacecon"
+	       }}`)
+
+	   	req, err2 := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	   	if err2 != nil {
+	   		log.Printf("....")
+	   	}
+	   	req.Header.Add("Content-Type", "application/json")
+	   	req.Header.Add("Authorization", "key=AAAAsAuxfzA:APA91bHY6OGDVP6kklE-Xf4LUA1CRJHfYUa4KHbWbvNDQoKxyfkHFOyR_PNuBVsrVECGpnBbqrf3GooQkka-EEq1vRvP9iTm-gqGv4k1Z0EaXzFVnTgWiapfB7ECDy5LCDyf-B42sCuF5G-bjTpoIfZjf41g9xWRYQ")
+	   	client := &http.Client{}
+	   	resp_, err_ := client.Do(req)
+	   	if err_ != nil {
+	   		panic(err_)
+	   	}
+	   	defer resp_.Body.Close()
+	   	fmt.Println("response status:", resp_.Status)
+	   	fmt.Println("--")
+	   	fmt.Println("response header:", resp_.Header)
+	   	fmt.Println("--")
+	   	fmt.Println("response request:", resp_.Request)
+	   	fmt.Println("--")
+	   	body_, _ := ioutil.ReadAll(resp_.Body)
+	   	fmt.Println("response body: ", string(body_))
+	*/
+	//END
+
 	//header
-	dataToSend := NewResponseController("0", "1", "0", "200")
+	dataToSend := NewResponseControllerEmpty()
+
+	if responseDataDataGame[id].ID == "1" {
+		dataToSend.ID = "0"
+		dataToSend.CODE = "200"
+		dataToSend.ERROR = "0"
+		dataToSend.STATE = "1"
+
+	} else {
+
+		dataToSend.ID = "0"
+		dataToSend.CODE = "400"
+		dataToSend.ERROR = "1"
+		dataToSend.STATE = "0"
+	}
 	w.Header().Set("Content-Type", "application/json")
 	//resp, err := json.Marshal(data)
 	resp, err := json.Marshal(dataToSend)
