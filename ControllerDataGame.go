@@ -28,6 +28,9 @@ type DataGameContainerController struct {
 	CONTAINER []DataGameController
 }
 
+//name
+//0 - 3
+//0: diamnte, 1: esmeralda, 2::ruby, 3: gema
 func NewDataGameControllerEmpty() *DataGameController {
 	return &DataGameController{
 		ID:        "0",
@@ -140,6 +143,7 @@ func DataGameRequestPost(w http.ResponseWriter, r *http.Request) {
 	dataSave := NewDataGameControllerEmpty()
 	dataSave.LATITUDE = data.LATITUDE
 	dataSave.LONGITUDE = data.LONGITUDE
+	dataSave.NAME = data.NAME
 	dataSave.ID = id
 
 	responseDataDataGame[id] = *dataSave

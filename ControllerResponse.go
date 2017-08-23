@@ -28,6 +28,7 @@ func NewResponseController(id string, state string, _error string, code string) 
 type PositionController struct {
 	LATITUDE  string `json:"LATITUDE"`
 	LONGITUDE string `json:"LONGITUDE"`
+	NAME      string `json:"NAME"`
 }
 
 func NewPositionControllerEmpty() *PositionController {
