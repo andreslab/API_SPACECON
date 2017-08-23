@@ -15,6 +15,7 @@ func CheckServicesRequest(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		CheckServicesRequestGet(w, r)
 	case "POST":
+		CheckServicesRequestPost(w, r)
 	case "PUT":
 	default:
 	}

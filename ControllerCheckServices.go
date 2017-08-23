@@ -40,16 +40,16 @@ func NewCheckServicesController(id string, state string, super string, message s
 
 func CheckServicesRequestGet(w http.ResponseWriter, r *http.Request) {
 
-	dataToSend := NewCheckServicesControllerEmpty()
+	/*dataToSend := NewCheckServicesControllerEmpty()
 	dataToSend.ID = "0"
 	dataToSend.MESSAGE = responseDataCheckService["0"].MESSAGE
 	dataToSend.POINTS = responseDataCheckService["0"].POINTS
 	dataToSend.STATE = responseDataCheckService["0"].STATE
-	dataToSend.SUPER = responseDataCheckService["0"].SUPER
+	dataToSend.SUPER = responseDataCheckService["0"].SUPER*/
 
 	//header
 	w.Header().Set("Content-Type", "application/json")
-	jsonData, err := json.Marshal(dataToSend)
+	jsonData, err := json.Marshal(responseDataCheckService["0"])
 	if err != nil {
 		panic(err)
 	}
