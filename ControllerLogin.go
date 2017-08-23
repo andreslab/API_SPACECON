@@ -66,7 +66,9 @@ func LoginRequestPost(w http.ResponseWriter, r *http.Request) {
 
 	for index := range responseDataRegister {
 		if responseDataRegister[index].USERNAME == data.USERNAME {
-			userExist = true
+			if responseDataRegister[index].PASSWORD == data.PASSWORD {
+				userExist = true
+			}
 		}
 	}
 
