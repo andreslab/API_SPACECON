@@ -12,6 +12,7 @@ import (
 
 var responseDataRegister = make(map[string]RegisterController)
 var idRegister int
+var timeintervalRequestDatabaseRegister = 10
 
 type RegisterController struct {
 	ID       string `json:"ID"`
@@ -28,6 +29,15 @@ func NewRegisterController(id string, phone string, username string, pass string
 		USERNAME: username,
 		PASSWORD: pass,
 		CREATED:  time.Now().String(),
+	}
+}
+func NewRegisterControllerEmpty() *RegisterController {
+	return &RegisterController{
+		ID:       "0",
+		PHONE:    "0",
+		USERNAME: "0",
+		PASSWORD: "0",
+		CREATED:  "0",
 	}
 }
 
@@ -92,17 +102,33 @@ func RegisterRequestPost(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	//:::::::::::::::::::::::::::::
+
+	//:::::::::::::::::::::::::::::
+
 	dataToSend := NewResponseControllerEmpty()
 
 	if !userExist {
 
 		//save new register
 
-		id := strconv.Itoa(idRegister)
+		/*id := strconv.Itoa(idRegister)
 		data.ID = id
 		data.CREATED = time.Now().String()
 		responseDataRegister[id] = data
+		idRegister++*/
+
+		//id
+		idRegister = SelectLastIdTableRegister()
+		//
 		idRegister++
+		id := strconv.Itoa(idRegister)
+		data.ID = id
+		data.CREATED = time.Now().String()
+		fmt.Println(data)
+		responseDataRegister[id] = data
+
+		InsertTableRegister(&data)
 
 		dataToSend.ID = "0"
 		dataToSend.STATE = "1"

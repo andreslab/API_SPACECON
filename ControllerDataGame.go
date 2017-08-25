@@ -12,6 +12,7 @@ import (
 
 var responseDataDataGame = make(map[string]DataGameController)
 var idDataGame int
+var timeintervalRequestDatabaseGame = 10
 
 type DataGameController struct {
 	ID        string `json:"ID"`
@@ -65,8 +66,27 @@ func DataGameRequestGet(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	d := DataGameContainerController{
-		CONTAINER: data,
+	var d DataGameContainerController
+
+	timeintervalRequestDatabaseGame -= 1
+	if timeintervalRequestDatabaseGame == 0 {
+		timeintervalRequestDatabaseGame = 10
+
+		std := SelectTableData()
+		in, err := strconv.Atoi(std.ID)
+		if err != nil {
+
+		} else {
+			idDataGame = in
+			d = DataGameContainerController{
+				CONTAINER: data,
+			}
+		}
+
+	} else {
+		d = DataGameContainerController{
+			CONTAINER: data,
+		}
 	}
 
 	//header
@@ -346,16 +366,20 @@ func DataGameRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 	//key_end := []byte("}")  //125
 
 	position := 0
+	posfin := 0
 	sum := 0
 	for _, v := range byteArray {
 		//fmt.Println(v)
 		if v == 123 { // 123 es { en byte
 			position = sum
 		}
+		if v == 125 {
+			posfin = sum
+		}
 		sum += 1
 	}
 
-	dataJson := string(byteArray[position:])
+	dataJson := string(byteArray[position:posfin])
 	fmt.Println(dataJson)
 
 	//fmt.Println("-----end----")
@@ -363,7 +387,6 @@ func DataGameRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 	err := json.Unmarshal([]byte(dataJson), &data)
 
 	if err != nil {
-		log.Fatal(err)
 		log.Println("json.Compact:", err)
 		if serr, ok := err.(*json.SyntaxError); ok {
 			log.Println("Occurred at offset:", serr.Offset)
@@ -373,12 +396,17 @@ func DataGameRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 
 	//save new object
 
+	//id
+	idDataGame = SelectLastIdTableData()
+	//
+	idDataGame++
 	id := strconv.Itoa(idDataGame)
 	data.ID = id
 	data.CREATED = time.Now().String()
 	fmt.Println(data)
 	responseDataDataGame[id] = data
-	idDataGame++
+
+	InsertTableData(&data)
 
 	dataToSend := NewResponseControllerEmpty()
 

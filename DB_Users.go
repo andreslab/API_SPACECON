@@ -1,11 +1,10 @@
-package servicedata
+package main
 
+/*
 import (
 	"database/sql"
 	"fmt"
 	"log"
-
-	controller "../../controller"
 )
 
 func CreateTableUsers() {
@@ -26,7 +25,7 @@ func CreateTableUsers() {
 	defer db.Close()
 }
 
-func InsertTableUsers(datatable *controller.UsersController) {
+func InsertTableUsers(datatable *UsersController) {
 	db, err := sql.Open(typeDataBase, linkDataBase)
 	if err != nil {
 		log.Fatal(err)
@@ -52,3 +51,4 @@ func InsertTableUsers(datatable *controller.UsersController) {
 	defer db.Close()
 
 }
+*/

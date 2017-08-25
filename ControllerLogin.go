@@ -10,6 +10,7 @@ import (
 
 var responseDataLogin = make(map[string]LoginController)
 var idLogin int
+var timeintervalogin = 10
 
 type LoginController struct {
 	USERNAME string `json:"USERNAME"`
@@ -26,6 +27,12 @@ func NewLoginController(username string, password string) *LoginController {
 //func LoginRequestGet(w http.ResponseWriter, r *http.Request) {}
 func LoginRequestPost(w http.ResponseWriter, r *http.Request) {
 	var data LoginController
+
+	timeintervalogin -= 1
+
+	if timeintervalogin == 0 || timeintervalRequestDatabaseRegister == 0 || responseDataRegister == nil {
+		SelectTableRegister()
+	}
 
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(r.Body)
