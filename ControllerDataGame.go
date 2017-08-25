@@ -179,6 +179,7 @@ func DataGameRequestUpdate(w http.ResponseWriter, r *http.Request) {
 		newData.LONGITUDE = lastData.LONGITUDE
 		newData.NAME = lastData.NAME
 		newData.VALUE = lastData.VALUE
+		newData.STATE = "0" //para que smp estan activos
 
 		delete(responseDataDataGame, id)
 		responseDataDataGame[id] = newData
