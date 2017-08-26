@@ -34,11 +34,6 @@ func config() {
 	portdb := "3306"
 	host := "us-cdbr-iron-east-05.cleardb.net"
 	namedb := "heroku_38cbea6230473ea"
-	/*log.Printf(user)
-	log.Printf(pass)
-	log.Printf(portdb)
-	log.Printf(host)
-	log.Printf(namedb)*/
 
 	linkDataBase = user + ":" + pass + "@tcp(" + host + ":" + portdb + ")/" + namedb
 
