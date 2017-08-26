@@ -77,6 +77,7 @@ func SelectTableRegister() {
 		responseDataRegister[data.ID] = *data
 
 	}
+	idRegister = lastindex
 
 	err = resp.Err()
 	if err != nil {
@@ -84,21 +85,21 @@ func SelectTableRegister() {
 	}
 }
 
-func SelectLastIdTableRegister() int {
+func SelectLastIdTableRegister() {
 
 	lastindex := 0
 	db, err := sql.Open(typeDataBase, linkDataBase)
 	if err != nil {
-		log.Printf("ERROR: CONEXIÓN A BASE DE DATOS")
+		log.Println("ERROR: CONEXIÓN A BASE DE DATOS")
 	} else {
-		log.Printf("SUCCESS: CONEXIÓN A BASE DE DATOS")
+		log.Println("SUCCESS: CONEXIÓN A BASE DE DATOS")
 	}
 
-	resp, err := db.Query("SELECT id FROM user")
+	resp, err := db.Query("SELECT MAX(id) AS maxid FROM user")
 	if err != nil {
-		fmt.Printf("ERROR: CONSULTA DE DATOS")
+		fmt.Println("ERROR: CONSULTA DE DATOS")
 	} else {
-		fmt.Printf("SUCCESS: CONSULTA DE DATOS")
+		fmt.Println("SUCCESS: CONSULTA DE DATOS")
 	}
 	defer resp.Close()
 	defer db.Close()
@@ -106,19 +107,21 @@ func SelectLastIdTableRegister() int {
 	for resp.Next() {
 		err := resp.Scan(&lastindex)
 		if err != nil {
-			fmt.Printf("ERROR: DATOS EXTRAIDOS")
+			fmt.Println("ERROR: DATOS EXTRAIDOS")
 		} else {
-			fmt.Printf("SUCCESS: DATOS EXTRAIDOS")
+			fmt.Println("SUCCESS: DATOS EXTRAIDOS")
 		}
 		idRegister = lastindex
 
 	}
 
+	//log.Printf("ultimo id: %d", lastindex)
+
 	err = resp.Err()
 	if err != nil {
 		log.Fatal(err)
 	}
-	return lastindex
+	//return lastindex
 }
 
 func InsertTableRegister(datatable *RegisterController) {

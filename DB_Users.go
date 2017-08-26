@@ -1,11 +1,19 @@
 package main
 
+import (
+	"database/sql"
+	"fmt"
+	"log"
+)
+
 /*
 import (
 	"database/sql"
 	"fmt"
 	"log"
 )
+
+
 
 func CreateTableUsers() {
 	db, err := sql.Open(typeDataBase, linkDataBase)
@@ -52,3 +60,28 @@ func InsertTableUsers(datatable *UsersController) {
 
 }
 */
+
+func SelectTableUserForLogin(user string, pass string) bool {
+	var passw string
+	db, err := sql.Open(typeDataBase, linkDataBase)
+	if err != nil {
+		log.Printf("ERROR: CONEXIÓN A BASE DE DATOS")
+	} else {
+		log.Printf("SUCCESS: CONEXIÓN A BASE DE DATOS")
+	}
+
+	defer db.Close()
+	err = db.QueryRow("SELECT password FROM user WHERE username = ?", user).Scan(&passw)
+	if err != nil {
+		fmt.Printf("ERROR: CONSULTA DE DATOS")
+	} else {
+		fmt.Printf("SUCCESS: CONSULTA DE DATOS")
+	}
+	if passw == pass {
+		log.Printf("SUCCESS LOGIN")
+		return true
+	} else {
+		log.Printf("SUCCESS LOGIN")
+		return false
+	}
+}

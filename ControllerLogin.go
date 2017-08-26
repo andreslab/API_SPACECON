@@ -28,12 +28,6 @@ func NewLoginController(username string, password string) *LoginController {
 func LoginRequestPost(w http.ResponseWriter, r *http.Request) {
 	var data LoginController
 
-	timeintervalogin -= 1
-
-	if timeintervalogin == 0 || timeintervalRequestDatabaseRegister == 0 || responseDataRegister == nil {
-		SelectTableRegister()
-	}
-
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(r.Body)
 	s := buf.String()
@@ -69,15 +63,7 @@ func LoginRequestPost(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	userExist := false
-
-	for index := range responseDataRegister {
-		if responseDataRegister[index].USERNAME == data.USERNAME {
-			if responseDataRegister[index].PASSWORD == data.PASSWORD {
-				userExist = true
-			}
-		}
-	}
+	userExist := SelectTableUserForLogin(data.USERNAME, data.PASSWORD)
 
 	dataToSend := NewResponseControllerEmpty()
 

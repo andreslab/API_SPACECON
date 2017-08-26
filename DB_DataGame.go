@@ -54,10 +54,10 @@ func SelectTableData() *DataGameController {
 	for resp.Next() {
 		err := resp.Scan(&lastindex, &data.NAME, &data.VALUE, &data.LATITUDE, &data.LONGITUDE, &data.STATE, &data.CREATED, &data.HUNTER)
 		if err != nil {
-			fmt.Println("ERROR: DATOS EXTRAIDOS")
+			fmt.Println("ERROR: DATO EXTRAIDO")
 			log.Fatal(err)
 		} else {
-			fmt.Println("SUCCESS: DATOS EXTRAIDOS")
+			fmt.Println("SUCCESS: DATO EXTRAIDO")
 			//log.Println(data.NAME)
 		}
 
@@ -74,7 +74,7 @@ func SelectTableData() *DataGameController {
 
 //last id
 
-func SelectLastIdTableData() int {
+func SelectLastIdTableData() {
 
 	lastindex := 0
 
@@ -86,7 +86,7 @@ func SelectLastIdTableData() int {
 		fmt.Println("SUCCESS: CONEXIÓN A BASE DE DATOS")
 	}
 
-	resp, err := db.Query("SELECT id FROM data")
+	resp, err := db.Query("SELECT MAX(id) AS maxid FROM data")
 	if err != nil {
 		fmt.Println("ERROR: CONSULTA DE DATOS")
 		log.Fatal(err)
@@ -100,7 +100,6 @@ func SelectLastIdTableData() int {
 		err := resp.Scan(&lastindex)
 		if err != nil {
 			fmt.Println("ERROR: DATOS EXTRAIDOS")
-			log.Fatal(err)
 		} else {
 			fmt.Println("SUCCESS: DATOS EXTRAIDOS")
 			//log.Println(data.NAME)
@@ -109,11 +108,6 @@ func SelectLastIdTableData() int {
 		idDataGame = lastindex
 
 	}
-	err = resp.Err()
-	if err != nil {
-		log.Fatal(err)
-	}
-	return lastindex
 }
 
 /*func CreateTableData() {
@@ -165,10 +159,10 @@ func InsertTableData(datatable *DataGameController) {
 		datatable.NAME,
 		datatable.VALUE,
 		datatable.LATITUDE,
-		datatable.LONGITUDE,
 		datatable.STATE,
 		datatable.CREATED,
-		datatable.HUNTER)
+		datatable.HUNTER,
+		datatable.LONGITUDE)
 
 	if err != nil {
 		fmt.Println("ERROR: INGRESO DE DATOS")

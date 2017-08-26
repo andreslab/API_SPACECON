@@ -6,9 +6,11 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 var responseDataCheckService = make(map[string]CheckServicesController)
+var idCheckService int
 
 type CheckServicesController struct {
 	ID      string `json:"ID"`
@@ -40,14 +42,9 @@ func NewCheckServicesController(id string, state string, super string, message s
 
 func CheckServicesRequestGet(w http.ResponseWriter, r *http.Request) {
 
-	/*dataToSend := NewCheckServicesControllerEmpty()
-	dataToSend.ID = "0"
-	dataToSend.MESSAGE = responseDataCheckService["0"].MESSAGE
-	dataToSend.POINTS = responseDataCheckService["0"].POINTS
-	dataToSend.STATE = responseDataCheckService["0"].STATE
-	dataToSend.SUPER = responseDataCheckService["0"].SUPER*/
-
 	//header
+	SelectLastDataTableCheck()
+
 	w.Header().Set("Content-Type", "application/json")
 	jsonData, err := json.Marshal(responseDataCheckService["0"])
 	if err != nil {
@@ -95,6 +92,14 @@ func CheckServicesRequestPost(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	SelectLastIDTableCheck()
+
+	idCheckService++
+
+	id := strconv.Itoa(idCheckService)
+	data.ID = id
+
+	InsertTableCheck(&data)
 	responseDataCheckService["0"] = data
 
 	dataToSend := NewResponseControllerEmpty()

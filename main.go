@@ -121,27 +121,6 @@ func LoginRequestAdmin(w http.ResponseWriter, r *http.Request) {
 func main() {
 	fmt.Print("...init....")
 
-	//database:
-	/*data := controller.NewDataGameController(
-		"0",
-		"diamante",
-		"0",
-		"2.3432",
-		"-2.4646",
-		"0",
-		"none")
-
-	fmt.Println(data.NAME)*/
-
-	//servicedata.CreateTableData()
-
-	/*servicedata.InsertTableData(data)
-
-	d := servicedata.SelectTableData()
-	fmt.Println(d.NAME)*/
-
-	//end database
-
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/odisea/check", CheckServicesRequest)

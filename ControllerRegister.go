@@ -56,6 +56,7 @@ func RegisterRequestGet(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write(jsonData)
 }
+
 func RegisterRequestPost(w http.ResponseWriter, r *http.Request) {
 	var data RegisterController
 
@@ -95,6 +96,7 @@ func RegisterRequestPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userExist := false
+	SelectTableRegister() // get lastid too
 
 	for index := range responseDataRegister {
 		if responseDataRegister[index].USERNAME == data.USERNAME {
@@ -104,23 +106,11 @@ func RegisterRequestPost(w http.ResponseWriter, r *http.Request) {
 
 	//:::::::::::::::::::::::::::::
 
-	//:::::::::::::::::::::::::::::
-
 	dataToSend := NewResponseControllerEmpty()
 
 	if !userExist {
-
-		//save new register
-
-		/*id := strconv.Itoa(idRegister)
-		data.ID = id
-		data.CREATED = time.Now().String()
-		responseDataRegister[id] = data
-		idRegister++*/
-
 		//id
-		idRegister = SelectLastIdTableRegister()
-		//
+		//SelectLastIdTableRegister()
 		idRegister++
 		id := strconv.Itoa(idRegister)
 		data.ID = id
@@ -128,7 +118,7 @@ func RegisterRequestPost(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(data)
 		responseDataRegister[id] = data
 
-		InsertTableRegister(&data)
+		go InsertTableRegister(&data)
 
 		dataToSend.ID = "0"
 		dataToSend.STATE = "1"
@@ -151,6 +141,7 @@ func RegisterRequestPost(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	w.Write(resp)
 }
+
 func RegisterRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 	var data RegisterController
 

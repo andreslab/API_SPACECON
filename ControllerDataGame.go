@@ -60,33 +60,17 @@ func NewDataGameController(id string, name string, value string, latitude string
 
 func DataGameRequestGet(w http.ResponseWriter, r *http.Request) {
 	var data []DataGameController
+
+	SelectTableData()
+
 	for _, value := range responseDataDataGame {
 		if value.STATE == "0" {
 			data = append(data, value)
 		}
 	}
 
-	var d DataGameContainerController
-
-	timeintervalRequestDatabaseGame -= 1
-	if timeintervalRequestDatabaseGame == 0 {
-		timeintervalRequestDatabaseGame = 10
-
-		std := SelectTableData()
-		in, err := strconv.Atoi(std.ID)
-		if err != nil {
-
-		} else {
-			idDataGame = in
-			d = DataGameContainerController{
-				CONTAINER: data,
-			}
-		}
-
-	} else {
-		d = DataGameContainerController{
-			CONTAINER: data,
-		}
+	d := DataGameContainerController{
+		CONTAINER: data,
 	}
 
 	//header
@@ -158,16 +142,22 @@ func DataGameRequestPost(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	//save new object
+
+	//id
+	SelectLastIdTableData()
+	//
+	idDataGame++
 	id := strconv.Itoa(idDataGame)
-	fmt.Println(data)
 	dataSave := NewDataGameControllerEmpty()
 	dataSave.LATITUDE = data.LATITUDE
 	dataSave.LONGITUDE = data.LONGITUDE
 	dataSave.NAME = data.NAME
 	dataSave.ID = id
-
+	fmt.Println(data)
 	responseDataDataGame[id] = *dataSave
-	idDataGame++
+
+	InsertTableData(dataSave) //agregar
 
 	//header
 	w.Header().Set("Content-Type", "application/json")
@@ -366,20 +356,20 @@ func DataGameRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 	//key_end := []byte("}")  //125
 
 	position := 0
-	posfin := 0
+	//posfin := 0
 	sum := 0
 	for _, v := range byteArray {
 		//fmt.Println(v)
 		if v == 123 { // 123 es { en byte
 			position = sum
 		}
-		if v == 125 {
+		/*if v == 125 {
 			posfin = sum
-		}
+		}*/
 		sum += 1
 	}
 
-	dataJson := string(byteArray[position:posfin])
+	dataJson := string(byteArray[position:])
 	fmt.Println(dataJson)
 
 	//fmt.Println("-----end----")
@@ -397,7 +387,7 @@ func DataGameRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 	//save new object
 
 	//id
-	idDataGame = SelectLastIdTableData()
+	SelectLastIdTableData()
 	//
 	idDataGame++
 	id := strconv.Itoa(idDataGame)
@@ -406,7 +396,7 @@ func DataGameRequestPostAdmin(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(data)
 	responseDataDataGame[id] = data
 
-	InsertTableData(&data)
+	InsertTableData(&data) //agregar
 
 	dataToSend := NewResponseControllerEmpty()
 
