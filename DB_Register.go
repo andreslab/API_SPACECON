@@ -51,16 +51,16 @@ func SelectTableRegister() {
 	lastindex := 0
 	db, err := sql.Open(typeDataBase, linkDataBase)
 	if err != nil {
-		log.Printf("ERROR: CONEXIÓN A BASE DE DATOS")
+		log.Printf("ERROR REGISTER: CONEXIÓN A BASE DE DATOS")
 	} else {
-		log.Printf("SUCCESS: CONEXIÓN A BASE DE DATOS")
+		log.Printf("SUCCESS REGISTER: CONEXIÓN A BASE DE DATOS")
 	}
 
 	resp, err := db.Query("SELECT * FROM user")
 	if err != nil {
-		fmt.Printf("ERROR: CONSULTA DE DATOS")
+		fmt.Printf("ERROR REGISTER: CONSULTA DE DATOS")
 	} else {
-		fmt.Printf("SUCCESS: CONSULTA DE DATOS")
+		fmt.Printf("SUCCESS REGISTER: CONSULTA DE DATOS")
 	}
 	defer resp.Close()
 	defer db.Close()
@@ -70,7 +70,7 @@ func SelectTableRegister() {
 		if err != nil {
 			fmt.Printf("ERROR: DATOS EXTRAIDOS")
 		} else {
-			fmt.Printf("SUCCESS: DATOS EXTRAIDOS")
+			//fmt.Printf("SUCCESS: DATOS EXTRAIDOS")
 		}
 		data.ID = strconv.Itoa(lastindex)
 
@@ -90,16 +90,16 @@ func SelectLastIdTableRegister() {
 	lastindex := 0
 	db, err := sql.Open(typeDataBase, linkDataBase)
 	if err != nil {
-		log.Println("ERROR: CONEXIÓN A BASE DE DATOS")
+		log.Println("ERROR REGISTER: CONEXIÓN A BASE DE DATOS")
 	} else {
-		log.Println("SUCCESS: CONEXIÓN A BASE DE DATOS")
+		log.Println("SUCCESS REGISTER: CONEXIÓN A BASE DE DATOS")
 	}
 
 	resp, err := db.Query("SELECT MAX(id) AS maxid FROM user")
 	if err != nil {
-		fmt.Println("ERROR: CONSULTA DE DATOS")
+		fmt.Println("ERROR REGISTER: CONSULTA DE DATOS")
 	} else {
-		fmt.Println("SUCCESS: CONSULTA DE DATOS")
+		fmt.Println("SUCCESS REGISTER: CONSULTA DE DATOS")
 	}
 	defer resp.Close()
 	defer db.Close()
@@ -109,7 +109,7 @@ func SelectLastIdTableRegister() {
 		if err != nil {
 			fmt.Println("ERROR: DATOS EXTRAIDOS")
 		} else {
-			fmt.Println("SUCCESS: DATOS EXTRAIDOS")
+			//fmt.Println("SUCCESS: DATOS EXTRAIDOS")
 		}
 		idRegister = lastindex
 

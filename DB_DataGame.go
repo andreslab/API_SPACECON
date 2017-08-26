@@ -101,7 +101,7 @@ func SelectLastIdTableData() {
 		if err != nil {
 			fmt.Println("ERROR: DATOS EXTRAIDOS")
 		} else {
-			fmt.Println("SUCCESS: DATOS EXTRAIDOS")
+			//fmt.Println("SUCCESS: DATOS EXTRAIDOS")
 			//log.Println(data.NAME)
 		}
 
