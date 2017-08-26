@@ -36,8 +36,8 @@ func config() {
 	user := "bfc6a71ffb843c"
 	pass := "6406db85"
 	portdb := uri.Port()
-	host := uri.Hostname()
-	namedb := uri.Path
+	host := "us-cdbr-iron-east-05.cleardb.net"
+	namedb := "heroku_38cbea6230473ea"
 	log.Printf(user)
 	log.Printf(pass)
 	log.Printf(portdb)
