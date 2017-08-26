@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	//_ "github.com/go-sql-driver/mysql"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func CreateTableCheck() {
