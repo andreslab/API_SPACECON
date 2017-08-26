@@ -2,7 +2,9 @@ package main
 
 const user = "bfc6a71ffb843c"
 const pass = "6406db85"
-const url = "us-cdbr-iron-east-05.cleardb.net"
+
+//const url = "us-cdbr-iron-east-05.cleardb.net"
+const url = "127.0.0.1"
 const port = "3306"
 const namedb = "heroku_38cbea6230473ea"
 
