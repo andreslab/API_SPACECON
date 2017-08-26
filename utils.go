@@ -38,6 +38,11 @@ func config() {
 	portdb := uri.Port()
 	host := uri.Hostname()
 	namedb := uri.Path
+	log.Printf(user)
+	log.Printf(pass)
+	log.Printf(portdb)
+	log.Printf(host)
+	log.Printf(namedb)
 
 	linkDataBase = user + ":" + pass + "@tcp(" + host + ":" + portdb + ")/" + namedb
 
