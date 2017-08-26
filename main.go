@@ -121,6 +121,8 @@ func LoginRequestAdmin(w http.ResponseWriter, r *http.Request) {
 func main() {
 	fmt.Print("...init....")
 
+	config()
+
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/odisea/check", CheckServicesRequest)

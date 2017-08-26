@@ -1,21 +1,14 @@
 package main
 
-var url_heroku = "mysql://bfc6a71ffb843c:6406db85@us-cdbr-iron-east-05.cleardb.net/heroku_38cbea6230473ea?reconnect=true"
+import "os"
+import "log"
 
-const user = "bfc6a71ffb843c"
-const pass = "6406db85"
+import "net/url"
 
-const url = "us-cdbr-iron-east-05.cleardb.net"
+//production
 
-//const url = "127.0.0.1"
-const portdb = "3306"
-const namedb = "heroku_38cbea6230473ea"
-
-//develop
 //var linkDataBase = user + ":" + pass + "@tcp(" + url + ":" + portdb + ")/" + namedb
-
-//deploy
-var linkDataBase = url_heroku
+var linkDataBase string
 
 //var linkDataBase = "admin:12345678@tcp(spacecongame.cffsdiafpjwv.us-east-2.rds.amazonaws.com:3306)/spacecondb"
 var typeDataBase = "mysql"
@@ -23,3 +16,29 @@ var tableDataGame = "data"
 var tableLogin = "login"
 var tableRegister = "register"
 var tablaUsers = "user"
+
+func config() {
+
+	//develop
+	/*user = "bfc6a71ffb843c"
+	pass = "6406db85"
+	url = "us-cdbr-iron-east-05.cleardb.net"
+	portdb = "3306"
+	namedb = "heroku_38cbea6230473ea"*/
+	u := os.Getenv("CLEARDB_DATABASE_URL")
+
+	uri, err_parse := url.Parse(u)
+	if err_parse != nil {
+		log.Printf("ERROR PARSING")
+	}
+
+	//user := uri.User.Username()
+	user := "bfc6a71ffb843c"
+	pass := "6406db85"
+	portdb := uri.Port()
+	host := uri.Hostname()
+	namedb := uri.Path
+
+	linkDataBase = user + ":" + pass + "@tcp(" + host + ":" + portdb + ")/" + namedb
+
+}
