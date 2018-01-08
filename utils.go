@@ -13,7 +13,7 @@ func config() {
 	//develop
 	/*user = "bfc6a71ffb843c"
 	pass = "6406db85"
-	url = "us-cdbr-iron-east-05.cleardb.net"
+	url = ""
 	portdb = "3306"
 	namedb = "heroku_38cbea6230473ea"*/
 
